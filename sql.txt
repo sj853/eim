@@ -1,0 +1,46 @@
+create table department(
+	dept_id	int( 8 ) primary key,
+	dept_name	varchar( 20 ) not null,
+	super_dept_id	int(8 )  references department (dept_id )
+)
+create table employee(
+	emp_id	VARCHAR(20 )	primary key,
+	emp_name	varchar( 20 )  not null,
+	emp_gender	int(1 )  not null,
+	emp_school	varchar(20 )	,
+	emp_birthday	DATE not null,
+	emp_native_province	varchar(12 ) 	not null,
+	emp_native_county	varchar(12 ) not null,
+	emp_native_district	varchar(12 ) ,
+	emp_photo	varchar(20 ) not null,
+	emp_xl	int(6 ) ,
+	emp_eng_level	int( 6 ),
+	emp_mandarin_level	int( 6 ),  
+	emp_position	int( 6 ),
+	emp_workdate 	date not null,	
+	dept_id	int(8 )  references department(dept_id ),
+	emp_email	CHAR(40 ) not null,
+	emp_cellphone	char(11) not null,
+	emp_address	VARCHAR(50 ) not null,
+	emp_desc	varchar(50 )
+)
+
+
+create table basicinfo(
+
+	basicinfo_id	int(6 ) primary key not null AUTO_INCREMENT,
+	basicinfo_type	int(4 ) not null,
+	basicinfo_value	varchar( 8 ) not null
+)
+ENGINE=INNODB AUTO_INCREMENT=1;
+
+
+
+
+
+
+
+
+
+
+
