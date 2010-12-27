@@ -20,6 +20,7 @@ public class DataBase {
 	
 	public DataBase() {
 		try {
+			init();
 			Class.forName(driverName);
 			conn = DriverManager.getConnection(connectUrl, userName, passWord);
 		} catch (ClassNotFoundException e) {
