@@ -12,12 +12,12 @@ public interface DepartmentService {
 	ArrayList<Department> doSearch(Map<String,String> condition);
 	
 	//处理添加模块
-	boolean doAdd();
+	boolean doAdd(Department dept);
 	
 	//处理删除模块
-	boolean doDel();
+	boolean doDel(ArrayList<Department> depts);
 	
 	//处理更新模块
-	boolean doUpdate();
+	boolean doUpdate(Department dept);
 
 }

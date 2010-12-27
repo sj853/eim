@@ -1,6 +1,11 @@
 package com.eim.test.dbconn;
 
 
+import java.util.ArrayList;
+
+import com.eim.beans.Department;
+import com.eim.dao.DepartmentDAO;
+import com.eim.daoImpl.DepartmentDAOImpl;
 import com.eim.db.DataBase;
 import com.eim.util.PropertiesUtil;
 
@@ -11,6 +16,10 @@ public class TestDB {
 	}
 	
 	public void test(String path){
-		DataBase db = new DataBase();
+		DepartmentDAO deptDAO = new DepartmentDAOImpl();
+		ArrayList<Department> depts = deptDAO.getElements();
+		for (Department department : depts) {
+			System.out.println(department.getName());
+		}
 	}
 }
