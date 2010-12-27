@@ -12,6 +12,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 
 	private DataBase db;
 	
+	
 	public DepartmentDAOImpl() {
 		db = new DataBase();
 	}
@@ -22,7 +23,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 
 	public Department getElementById(String id) {
 		Department dept = new Department();
-		ResultSet rs = db.getResult("select * from department where dept_id=?", new String[]{id});
+		ResultSet rs = db.getResult("select * from department where dept_id=?", id);
 		try {
 			dept.setId(rs.getInt("dept_id"));
 			dept.setName(rs.getString("dept_name"));
@@ -36,7 +37,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 	public ArrayList<Department> getElementByName(String name) {
 		Department dept = new Department();
 		ArrayList<Department> depts = new ArrayList<Department>();
-		ResultSet rs = db.getResult("select * from department where dept_name=?", new String[]{name});
+		ResultSet rs = db.getResult("select * from department where dept_name=?", name);
 		try {
 			dept.setId(rs.getInt("dept_id"));
 			dept.setName(rs.getString("dept_name"));

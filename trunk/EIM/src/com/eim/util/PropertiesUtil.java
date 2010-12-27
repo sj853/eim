@@ -10,8 +10,9 @@ import java.util.Properties;
 
 public class PropertiesUtil {
 
-	public static Properties config;
+	private String configPath = "D:/Program Files/Apache Software Foundation/Tomcat 6.0/webapps/EIM/WEB-INF/classes/conf/";
 	
+	public static Properties config;
 	private String pName;
 
 	public void setpName(String pName) {
@@ -32,7 +33,7 @@ public class PropertiesUtil {
 		FileInputStream fis = null;
 		String value = null; 
 		try {
-			fis = new FileInputStream(getpName());
+			fis = new FileInputStream(configPath+getpName());
 			config.load(fis);
 			value = config.getProperty(key);
 		} catch (FileNotFoundException e) {
