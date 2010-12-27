@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class PropertiesUtil {
 
-	private String configPath = "D:/Program Files/Apache Software Foundation/Tomcat 6.0/webapps/EIM/WEB-INF/classes/conf/";
+	public static String configPath = "D:/Program Files/Apache Software Foundation/Tomcat 6.0/webapps/EIM/WEB-INF/classes/conf/";
 	
 	public static Properties config;
 	private String pName;
