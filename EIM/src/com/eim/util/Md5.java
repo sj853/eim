@@ -5,9 +5,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class Md5 {
 
-	public String str;
 
-	public String encode(String password) {
+	public static String encode(String password) {
+		String str =null;
 		StringBuffer buf = null;
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -26,8 +26,8 @@ public class Md5 {
 				buf.append(Integer.toHexString(i));
 			}
 			str = buf.toString();
-			System.out.println("result: " + buf.toString());// 32位的加密
-			System.out.println("result: " + buf.toString().substring(8, 24));// 16位的加密
+//			System.out.println("result: " + buf.toString());// 32位的加密
+//			System.out.println("result: " + buf.toString().substring(8, 24));// 16位的加密
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			return "";
@@ -36,7 +36,7 @@ public class Md5 {
 	}
 	
 	
-	public boolean check(String password){
+	public static boolean check(String password){
 		String code = encode(password);
 		PropertiesUtil pu = new PropertiesUtil("admin.properties");
 		String realPw = pu.read("password");
@@ -47,7 +47,6 @@ public class Md5 {
 			return false;
 		}
 	}
-	
 	
 
 }

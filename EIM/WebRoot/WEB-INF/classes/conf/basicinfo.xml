@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<type name="学历">
+		<level>专科</level>
+		<level>本科</level>
+		<level>硕士</level>
+		<level>博士</level>
+	</type>
+	<type name="外语水平">
+		<level>无</level>
+		<level>CET-4</level>
+		<level>CET-6</level>
+	</type>
+	<type name="普通话水平">
+		<level>一级</level>
+		<level>二级</level>
+		<level>三级</level>
+	</type>
+
+	<type name="职位">
+		<level>测试</level>
+		<level>项目经理</level>
+		<level>产品经理</level>
+		<level>开发人员</level>
+	</type>
+</root>

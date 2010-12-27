@@ -17,14 +17,16 @@ public class DataBase {
 	private String userName;
 	private String passWord;
 	private PropertiesUtil pu;
-	private static BoneCP connectionPool;
+	public static BoneCP connectionPool;
 	private BoneCPConfig config;
+	
+	
 	
 	public DataBase() {
 		try {
 			init();
 			Class.forName(driverName);
-			connectionPool = new BoneCP(config);
+			if(connectionPool==null)connectionPool = new BoneCP(config);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -40,7 +42,6 @@ public class DataBase {
 		userName = pu.read("UserName");
 		passWord = pu.read("PassWord");
 		
-		System.out.println(driverName+" "+connectUrl);
 		
 	     //设置连接池配置信息
         config = new BoneCPConfig();
@@ -67,7 +68,7 @@ public class DataBase {
 		try {
 			conn = connectionPool.getConnection();
 			ps = conn.prepareStatement(sqlStr);
-			ps.setString(0, val);
+			if(!"".equals(val))ps.setString(0, val);
 			result = ps.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,8 +80,8 @@ public class DataBase {
 				e.printStackTrace();
 			}
 		}
-		
 		return result;
+		
 	
 	}
 	
@@ -105,11 +106,15 @@ public class DataBase {
 				e.printStackTrace();
 			}
 		}
-		
 		return result;
+		
 	}
 	
-	
-	
+	public static void main(String[] args) throws SQLException {
+		ResultSet rs = new DataBase().getResult("select * from department", "");
+		while(rs.next()){
+			System.out.println(rs.getString(2));
+		}
+	}
 	
 }

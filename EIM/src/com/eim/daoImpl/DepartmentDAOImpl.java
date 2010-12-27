@@ -51,6 +51,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 	}
 
 	public ArrayList<Department> getElements() {
+		ArrayList<Department> depts = new ArrayList<Department>();
 		return null;
 	}
 
