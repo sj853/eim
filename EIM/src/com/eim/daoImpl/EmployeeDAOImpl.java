@@ -36,14 +36,25 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		return null;
 	}
 
-	public Employee getElmmentById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public ArrayList<Employee> getElementsByUser(String sqlStr) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public boolean addElement(Employee emp) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean delElements(int[] ids) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean updateElement(Employee emp) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
