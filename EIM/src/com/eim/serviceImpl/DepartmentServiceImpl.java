@@ -17,7 +17,7 @@ public class DepartmentServiceImpl implements InfoService<Department> {
 
 	private DepartmentDAOImpl deptDAO;
 	
-	DepartmentServiceImpl(){
+	public DepartmentServiceImpl(){
 		deptDAO = new DepartmentDAOImpl();
 	}
 	
