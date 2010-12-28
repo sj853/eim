@@ -7,6 +7,11 @@ import com.eim.util.PropertiesUtil;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 
+/**
+ * 数据库连接池
+ * @author element
+ *
+ */
 public class DataBase {
 
 	private static String driverName;
@@ -18,6 +23,9 @@ public class DataBase {
 	private static PropertiesUtil pu = new PropertiesUtil("conn.properties");
 	private Connection conn;
 
+	/**
+	 * 初始化连接池
+	 */
 	static {
 		driverName = pu.read("DriverName");
 		connectUrl = pu.read("ConnectUrl");
@@ -50,6 +58,10 @@ public class DataBase {
 		}
 	}
 
+	/**
+	 * 得到一个连接
+	 * @return 一个数据库连接
+	 */
 	public Connection getConnect() {
 		try {
 			conn = connectionPool.getConnection();
@@ -59,6 +71,9 @@ public class DataBase {
 		return conn;
 	}
 
+	/**
+	 * 关闭当前连接
+	 */
 	public void close() {
 		try {
 			if (!conn.isClosed()) {

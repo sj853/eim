@@ -1,5 +1,10 @@
 package com.eim.beans;
 
+/**
+ * Department实体类
+ * @author element
+ *
+ */
 public class Department {
 
 	private int id;

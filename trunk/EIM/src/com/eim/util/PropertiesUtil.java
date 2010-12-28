@@ -7,7 +7,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
 
-
+/**
+ * 
+ * @author element
+ *配置文件操作类
+ */
 public class PropertiesUtil {
 
 	public static String configPath = "D:/Program Files/Apache Software Foundation/Tomcat 6.0/webapps/EIM/WEB-INF/classes/conf/";
@@ -29,6 +33,11 @@ public class PropertiesUtil {
 		config = new Properties();
 	}
 	
+	/**
+	 * 读取key=X的值
+	 * @param key 健
+	 * @return 值
+	 */
 	public String read(String key){
 		FileInputStream fis = null;
 		String value = null; 
@@ -50,6 +59,11 @@ public class PropertiesUtil {
 		return value;
 	}
 	
+	/**
+	 * 修改key=X的值
+	 * @param key 键
+	 * @param value 值
+	 */
 	public void write(String key,String value){
 		OutputStream  os = null;
 		try {

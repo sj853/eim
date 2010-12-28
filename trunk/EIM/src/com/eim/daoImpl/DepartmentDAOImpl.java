@@ -10,6 +10,11 @@ import com.eim.beans.Department;
 import com.eim.dao.DepartmentDAO;
 import com.eim.db.DataBase;
 
+/**
+ * 
+ * @author element
+ *departmentDAO的实现类
+ */
 public class DepartmentDAOImpl implements DepartmentDAO{
 
 	private DataBase db;
@@ -20,6 +25,9 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		db = new DataBase();
 	}
 	
+	/**
+	 * 查询某个部门的上级部门
+	 */
 	public Department getSuperDepartment(String id) {
 		Connection conn = db.getConnect();
 		Department dept = new Department();	
@@ -45,6 +53,9 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		return dept;
 	}
 
+	/**
+	 * 按部门号查询部门信息
+	 */
 	public Department getElementById(String id) {
 		Connection conn = db.getConnect();
 		Department dept = new Department();	
@@ -70,6 +81,9 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		return dept;
 	}
 
+	/**
+	 * 按名字查询部门
+	 */
 	public ArrayList<Department> getElementByName(String name) {
 		ArrayList<Department> depts = new ArrayList<Department>();
 		Connection conn = db.getConnect();
@@ -99,6 +113,9 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		return depts;
 	}
 
+	/**
+	 * 查询所有部门信息
+	 */
 	public ArrayList<Department> getElements() {
 		ArrayList<Department> depts = new ArrayList<Department>();
 		Connection conn = db.getConnect();
@@ -127,15 +144,18 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		return depts;
 	}
 
-	public boolean delElements(int[] ids){
-		ArrayList<Department> depts = new ArrayList<Department>();
+	/**
+	 * 删除多个部门
+	 */
+	public boolean delElements(String[] ids){
 		int[] nums =null;
 		Connection conn = db.getConnect();
-		String sqlStr = "delete * from department where id=?";
+		String sqlStr = "delete * from department where dept_id=?";
 		try {
 			ps = conn.prepareStatement(sqlStr);
-			for (int id : ids) {
-				ps.setInt(1, id);
+			for (String id : ids) {
+				int did = Integer.parseInt(id);
+				ps.setInt(1, did);
 			}
 			nums = ps.executeBatch();
 		} catch (SQLException e) {
@@ -157,6 +177,9 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		}
 	}
 	
+	/**
+	 * 用户自定义查询
+	 */
 	public ArrayList<Department> getElementsByUser(String sqlStr) {
 		ArrayList<Department> depts = new ArrayList<Department>();
 		Connection conn = db.getConnect();
@@ -184,8 +207,10 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		return depts;
 	}
 
+	/**
+	 * 添加一个部门
+	 */
 	public boolean addElement(Department dept) {
-		ArrayList<Department> depts = new ArrayList<Department>();
 		Connection conn = db.getConnect();
 		String sqlStr = "insert into department values(?,?,?)";
 		int num = 0;
@@ -213,8 +238,10 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		}
 	}
 
+	/**
+	 * 删除一个部门
+	 */
 	public boolean updateElement(Department dept) {
-		ArrayList<Department> depts = new ArrayList<Department>();
 		Connection conn = db.getConnect();
 		String sqlStr = "update department set dept_name=?,super_dept_id=? where dept_id=?";
 		int num = 0;
