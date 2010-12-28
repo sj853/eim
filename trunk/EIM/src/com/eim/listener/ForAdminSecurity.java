@@ -24,18 +24,18 @@ public class ForAdminSecurity implements HttpSessionListener{
 		pu = new PropertiesUtil("admin.properties");
 		//获取管理员登陆的时间
 		loginOutTime = Calendar.getInstance();
-		//将管理员在线的时间计算出来,并组装成一个字符串
+		//将管理员当前在线的时间计算出来,并组装成一个字符串
 		onlineTimeStr =getSeltaT(loginOutTime , loginTime);
 		
 		//以下代码修改管理员的在线时间
-		String p_onlineTime = pu.read("onlinetime");
+		
+		
 		//将管理员的在线时间更新到配置文件中
-		pu.write("onlinetime", getOnlineTime(p_onlineTime,onlineTimeStr));
+		pu.write("onlinetime", getOnlineTime(pu.read("onlinetime"),onlineTimeStr));
 		//将管理员最后登录的时间记录到配置文件当中
 		pu.write("lastaccesstime", new Date().toString());
 		
 	}
-	
 	private String getSeltaT(Calendar t1 , Calendar t2)
 	{
 		//该方法用于返回两个时间的差的小时，分钟和秒数的差距,t1-t2
