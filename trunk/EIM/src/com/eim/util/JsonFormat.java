@@ -1,66 +1,59 @@
 package com.eim.util;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
-
-import com.eim.beans.Department;
-
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+/**
+ * 
+ * @author element
+ *将实体类的数组转换成JSON
+ *
+ * @param <T>
+ */
 public class JsonFormat<T> {
 
-	String gs;
-	String rapl;
-	Pattern getM;
-	public JsonFormat() {
-		gs = "get(\\w+)";
-		getM = Pattern.compile(gs);
-		rapl = "$1";
-		String tag;
-	}
+	static String gs = "get(\\w+)";
+	static String rapl = "$1";
+	static Pattern getM = Pattern.compile(gs);
 
-	public JSONArray format(ArrayList<T> ts) {
-
-		JSONArray jarray = new JSONArray();
+	
+	
+	/**
+	 * 转成Json
+	 * @param ts
+	 * @return
+	 */
+	public JSONObject format(ArrayList<T> ts) {
+		StringBuilder sb = new StringBuilder();
+		JSONObject jObject = new JSONObject();
+		sb.append("{total:"+ts.size()+",rows:[");
 		for (T t : ts) {
-			JSONObject jobject = new JSONObject();
-			Field[] fields = t.getClass().getDeclaredFields();
-			for (Field field : fields) {
+			Method[] methods = t.getClass().getDeclaredMethods();
+			sb.append("{");
+			for (Method method : methods) {
+				String methodName = method.getName();
+				String tag;
 				try {
-					jobject.element(field.getName(), field.get(t).toString());
+					 if (Pattern.matches(gs, methodName)) {
+						 tag = getM.matcher(methodName).replaceAll(rapl).toLowerCase();
+						 sb.append(tag+":"+ method.invoke(t)+",");
+			            }
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
 				}
 			}
-			jarray.add(jobject);
+			sb.deleteCharAt(sb.length()-1).append("},");
 		}
-		return jarray;
-
+		String str = sb.deleteCharAt(sb.length()-1).append("]}").toString();
+		System.out.println(str);
+		return JSONObject.fromString(str);
 	}
 
-	public static void main(String[] args) {
-		// Department dept = new Department();
-		// dept.setId(1);
-		// dept.setName("sdafsdf");
-		// dept.setSuperid(1);
-		// ArrayList<Department> depts = new ArrayList<Department>();
-		// depts.add(dept);
-		// JSONArray jarry = new JsonFormat<Department>().format(depts);
-		// System.out.println(jarry.isEmpty());
-
-		JSONObject jobject = new JSONObject();
-		Method[] methods = Department.class.getDeclaredMethods();
-		for (Method method : methods) {
-			try {
-				System.out.println(method.getName());
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 }
