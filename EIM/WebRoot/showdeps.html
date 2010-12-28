@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>部门管理页面</title>
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	<script type="text/javascript" src="js_lib/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="js_lib/jquery.easyui.min.js"></script>
+	<script>
+		var products = [
+		    {productid:'FI-SW-01',name:'Koi'},
+		    {productid:'K9-DL-01',name:'Dalmation'},
+		    {productid:'RP-SN-01',name:'Rattlesnake'},
+		    {productid:'RP-LI-02',name:'Iguana'},
+		    {productid:'FL-DSH-01',name:'Manx'},
+		    {productid:'FL-DLH-02',name:'Persian'},
+		    {productid:'AV-CB-01',name:'Amazon Parrot'}
+		];
+		function productFormatter(value){
+			for(var i=0; i<products.length; i++){
+				if (products[i].productid == value) return products[i].name;
+			}
+			return value;
+		}
+		$(function(){
+			var lastIndex;
+			$('#tt').datagrid({
+				pagination:true,
+				rownumbers:true,
+				toolbar:[{
+					text:'append',
+					iconCls:'icon-add',
+					handler:function(){
+					$('#tt').datagrid('endEdit', lastIndex);
+						$('#tt').datagrid('appendRow',{
+							itemid:'',
+							productid:'',
+							listprice:'',
+							unitprice:'',
+							attr1:'',
+							status:'P'
+						});
+						var lastIndex = $('#tt').datagrid('getRows').length-1;
+						$('#tt').datagrid('beginEdit', lastIndex);
+					}
+				},'-',{
+					text:'delete',
+					iconCls:'icon-remove',
+					handler:function(){
+						var row = $('#tt').datagrid('getSelected');
+						if (row){
+							var index = $('#tt').datagrid('getRowIndex', row);
+							$('#tt').datagrid('deleteRow', index);
+						}
+					}
+				},'-',{
+					text:'accept',
+					iconCls:'icon-save',
+					handler:function(){
+						$('#tt').datagrid('acceptChanges');
+					}
+				},'-',{
+					text:'reject',
+					iconCls:'icon-undo',
+					handler:function(){
+						$('#tt').datagrid('rejectChanges');
+					}
+				},'-',{
+					text:'getChanges',
+					iconCls:'icon-search',
+					handler:function(){
+						var rows = $('#tt').datagrid('getChanges');
+						alert('changed rows: ' + rows.length + ' lines');
+					}
+				}],
+				onBeforeLoad:function(){
+					$(this).datagrid('rejectChanges');
+				},
+				onClickRow:function(rowIndex){
+					if (lastIndex != rowIndex){
+						$('#tt').datagrid('endEdit', lastIndex);
+						$('#tt').datagrid('beginEdit', rowIndex);
+					}
+					lastIndex = rowIndex;
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>部门信息</h1>
+	
+	<table id="tt" style="width:650px;height:auto"
+			title="Editable DataGrid" iconCls="icon-edit" singleSelect="true"
+			idField="itemid" url="servlet/DeptServlet">
+		<thead>
+			<tr>
+				<th field="id" width="80">部门编号</th>
+				<th field="name" width="100">部门名称</th>
+				<th field="superid" width="80" align="right" >上级部门编号</th>
+			</tr>
+		</thead>
+	</table>
+	
+</body>
+</html>

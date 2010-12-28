@@ -12,10 +12,6 @@
 		<servlet-class>com.eim.servlet.DeptServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>TestServlet</servlet-name>
-		<servlet-class>com.eim.test.dbconn.TestServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>com.eim.servlet.LoginServlet</servlet-class>
 	</servlet>
@@ -24,21 +20,17 @@
 		<url-pattern>/servlet/DeptServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>TestServlet</servlet-name>
-		<url-pattern>/servlet/TestServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>LoginServlet</servlet-name>
-		<url-pattern>/servlet/LoginServlet</url-pattern>
-	</servlet-mapping>
-	<filter-mapping>
-		<filter-name>CharsetFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-	<login-config>
-		<auth-method>BASIC</auth-method>
-	</login-config>
+			<servlet-name>LoginServlet</servlet-name>
+			<url-pattern>/servlet/LoginServlet</url-pattern>
+		</servlet-mapping>
+ 	<!--  <filter-mapping>
+			<filter-name>CharsetFilter</filter-name>
+			<url-pattern>/*</url-pattern>
+		</filter-mapping>-->
+		<welcome-file-list>
+			<welcome-file>index.jsp</welcome-file>
+		</welcome-file-list>
+		<login-config>
+			<auth-method>BASIC</auth-method>
+		</login-config>
 </web-app>
