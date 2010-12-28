@@ -14,7 +14,7 @@ import java.util.Properties;
  */
 public class PropertiesUtil {
 
-	public static String configPath = "D:/Program Files/Apache Software Foundation/Tomcat 6.0/webapps/EIM/WEB-INF/classes/conf/";
+	public static String configPath;
 	
 	public static Properties config;
 	private String pName;
@@ -27,7 +27,9 @@ public class PropertiesUtil {
 		return pName;
 	}
 	
-	
+	static{
+		configPath = PropertiesUtil.class.getResource("/conf/").toString().substring(6).replaceAll("%20", " ");
+	}
 	public PropertiesUtil(String pName) {
 		this.pName = pName;
 		config = new Properties();
@@ -67,7 +69,7 @@ public class PropertiesUtil {
 	public void write(String key,String value){
 		OutputStream  os = null;
 		try {
-		    os = new FileOutputStream(getpName());
+		    os = new FileOutputStream(configPath+getpName());
 			config.setProperty(key, value);
 			config.store(os, null);
 		} catch (FileNotFoundException e) {
