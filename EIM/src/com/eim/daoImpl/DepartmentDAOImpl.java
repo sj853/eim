@@ -76,7 +76,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		String sqlStr = "select * from department where dept_name=?";
 		try {
 			ps = conn.prepareStatement(sqlStr);
-			ps.setString(0, name);
+			ps.setString(1, name);
 			rs = ps.executeQuery();
 			while(rs.next()){
 				Department dept = new Department();	
@@ -135,7 +135,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		try {
 			ps = conn.prepareStatement(sqlStr);
 			for (int id : ids) {
-				ps.setInt(0, id);
+				ps.setInt(1, id);
 			}
 			nums = ps.executeBatch();
 		} catch (SQLException e) {
