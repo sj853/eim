@@ -3,9 +3,19 @@ package com.eim.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * 
+ * @author element
+ * 加密类
+ */
 public class Md5 {
 
 
+	/**
+	 * 加密
+	 * @param password 输入的密码
+	 * @return md5密码
+	 */
 	public static String encode(String password) {
 		String str =null;
 		StringBuffer buf = null;
@@ -35,7 +45,11 @@ public class Md5 {
 		return str;
 	}
 	
-	
+	/**
+	 * 验证密码
+	 * @param password 输入的密码
+	 * @return 是否正确
+	 */
 	public static boolean check(String password){
 		String code = encode(password);
 		PropertiesUtil pu = new PropertiesUtil("admin.properties");

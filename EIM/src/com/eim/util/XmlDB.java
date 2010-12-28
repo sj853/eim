@@ -11,7 +11,11 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-
+/**
+ * 
+ * @author element
+ *XML解析类
+ */
 public class XmlDB {
 	
 	public Document document;
@@ -33,6 +37,11 @@ public class XmlDB {
 		rootElem = document.getRootElement();
 	}
 	
+	/**
+	 * 得到属性name=X的type节点下子节点
+	 * @param name 属性值
+	 * @return 子节点内容的数组
+	 */
 	public ArrayList<String> getElements(String name){
 		ArrayList<String> vals = new ArrayList<String>();
 		String xpath ="/root/type[@name='"+name+"']/level";
@@ -45,7 +54,10 @@ public class XmlDB {
 	    return vals;
 	}
 	
-	
+	/**
+	 * 得到节点的个数
+	 * @return
+	 */
 	public int getElementSize() {
 		return ElementSize;
 	}

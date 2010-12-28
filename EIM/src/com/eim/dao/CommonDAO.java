@@ -20,7 +20,7 @@ public interface CommonDAO<T> {
 	
 	
 	//删除实体
-	boolean delElements(int[] ids);
+	boolean delElements(String[] ids);
 	
 	//添加实体
 	boolean addElement(T t);
