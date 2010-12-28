@@ -28,17 +28,19 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 	/**
 	 * 查询某个部门的上级部门
 	 */
-	public Department getSuperDepartment(String id) {
+	public ArrayList<Department> getSuperDepartment(String sid) {
+		ArrayList<Department> depts = new ArrayList<Department>();
 		Connection conn = db.getConnect();
 		Department dept = new Department();	
 		String sqlStr = "select * from department where id=(select super_dept_id from department where id=?)";
 		try {
 			ps = conn.prepareStatement(sqlStr);
-			ps.setString(0, id);
+			ps.setString(0, sid);
 			rs = ps.executeQuery();
 			dept.setId(rs.getInt("dept_id"));
 			dept.setName(rs.getString("dept_name"));
 			dept.setSuperid(rs.getInt("super_dept_id"));
+			depts.add(dept);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
@@ -50,13 +52,14 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 			}
 			db.close();
 		}
-		return dept;
+		return depts;
 	}
 
 	/**
 	 * 按部门号查询部门信息
 	 */
-	public Department getElementById(String id) {
+	public ArrayList<Department> getElementById(String id) {
+		ArrayList<Department> depts = new ArrayList<Department>();
 		Connection conn = db.getConnect();
 		Department dept = new Department();	
 		String sqlStr = "select * from department where dept_id=?";
@@ -67,6 +70,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 			dept.setId(rs.getInt("dept_id"));
 			dept.setName(rs.getString("dept_name"));
 			dept.setSuperid(rs.getInt("super_dept_id"));
+			depts.add(dept);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
@@ -78,7 +82,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 			}
 			db.close();
 		}
-		return dept;
+		return depts;
 	}
 
 	/**
@@ -239,7 +243,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 	}
 
 	/**
-	 * 删除一个部门
+	 * 修改一个部门
 	 */
 	public boolean updateElement(Department dept) {
 		Connection conn = db.getConnect();
