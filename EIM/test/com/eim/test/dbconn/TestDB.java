@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import com.eim.beans.Department;
 import com.eim.dao.DepartmentDAO;
 import com.eim.daoImpl.DepartmentDAOImpl;
-import com.eim.db.DataBase;
-import com.eim.util.PropertiesUtil;
 
 public class TestDB {
 

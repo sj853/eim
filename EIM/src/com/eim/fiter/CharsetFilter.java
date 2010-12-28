@@ -9,6 +9,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+/**
+ * 
+ * @author element
+ *字符集过滤类
+ */
 public class CharsetFilter implements Filter {
 
 	String Charset;

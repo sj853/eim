@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.eim.beans.Department;
 import com.eim.beans.Employee;
 import com.eim.dao.EmployeeDAO;
 import com.eim.db.DataBase;
@@ -126,58 +125,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	/**
 	 * 查询工号为X的员工
 	 */
-	public Employee getElementById(String id) {
+	public ArrayList<Employee> getElementById(String id) {
+		ArrayList<Employee> emps = new ArrayList<Employee>();
 		Employee emp = new Employee();
 		Connection conn = db.getConnect();
 		String sqlStr = "select * from employee where emp_id=?";
 		try {
 			ps = conn.prepareStatement(sqlStr);
 			ps.setString(1, id);
-			rs = ps.executeQuery();
-			emp.setId(rs.getString("emp_id"));
-			emp.setName(rs.getString("emp_name"));
-			emp.setAddress(rs.getString("emp_address"));
-			emp.setBirthday(rs.getDate("emp_birthday"));
-			emp.setChinese(rs.getString("emp_mandarin_level"));
-			emp.setCounty(rs.getString("emp_native_county"));
-			emp.setDepid(rs.getInt("dept_id"));
-			emp.setDesc(rs.getString("emp_desc"));
-			emp.setDistrict(rs.getString("emp_native_district"));
-			emp.setEduction(rs.getString("emp_xl"));
-			emp.setEmail(rs.getString("emp_email"));
-			emp.setEnglish(rs.getString("emp_eng_level"));
-			emp.setGender(rs.getByte("gender"));
-			emp.setOffertime(rs.getDate("emp_workdate"));
-			emp.setPhone(rs.getString("emp_cellphone"));
-			emp.setPhotoAdd(rs.getString("emp_photo"));
-			emp.setPosition(rs.getString("emp_position"));
-			emp.setProvince(rs.getString("emp_native_province"));
-			emp.setSchool(rs.getString("emp_school"));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				rs.close();
-				ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			db.close();
-		}
-		return emp;
-	}
-
-	/**
-	 * 查询姓名为X的员工
-	 */
-	public ArrayList<Employee> getElementByName(String name) {
-		ArrayList<Employee> emps = new ArrayList<Employee>();
-		Employee emp = new Employee();
-		Connection conn = db.getConnect();
-		String sqlStr = "select * from employee where emp_name=?";
-		try {
-			ps = conn.prepareStatement(sqlStr);
-			ps.setString(1, name);
 			rs = ps.executeQuery();
 			emp.setId(rs.getString("emp_id"));
 			emp.setName(rs.getString("emp_name"));
@@ -214,6 +169,55 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	/**
+	 * 查询姓名为X的员工
+	 */
+	public ArrayList<Employee> getElementByName(String name) {
+		ArrayList<Employee> emps = new ArrayList<Employee>();
+		Employee emp = new Employee();
+		Connection conn = db.getConnect();
+		String sqlStr = "select * from employee where emp_name=?";
+		try {
+			ps = conn.prepareStatement(sqlStr);
+			ps.setString(1, name);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				
+				emp.setId(rs.getString("emp_id"));
+				emp.setName(rs.getString("emp_name"));
+				emp.setAddress(rs.getString("emp_address"));
+				emp.setBirthday(rs.getDate("emp_birthday"));
+				emp.setChinese(rs.getString("emp_mandarin_level"));
+				emp.setCounty(rs.getString("emp_native_county"));
+				emp.setDepid(rs.getInt("dept_id"));
+				emp.setDesc(rs.getString("emp_desc"));
+				emp.setDistrict(rs.getString("emp_native_district"));
+				emp.setEduction(rs.getString("emp_xl"));
+				emp.setEmail(rs.getString("emp_email"));
+				emp.setEnglish(rs.getString("emp_eng_level"));
+				emp.setGender(rs.getByte("gender"));
+				emp.setOffertime(rs.getDate("emp_workdate"));
+				emp.setPhone(rs.getString("emp_cellphone"));
+				emp.setPhotoAdd(rs.getString("emp_photo"));
+				emp.setPosition(rs.getString("emp_position"));
+				emp.setProvince(rs.getString("emp_native_province"));
+				emp.setSchool(rs.getString("emp_school"));
+				emps.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			db.close();
+		}
+		return emps;
+	}
+
+	/**
 	 * 查询所有员工
 	 */
 	public ArrayList<Employee> getElements() {
@@ -224,26 +228,29 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		try {
 			ps = conn.prepareStatement(sqlStr);
 			rs = ps.executeQuery();
-			emp.setId(rs.getString("emp_id"));
-			emp.setName(rs.getString("emp_name"));
-			emp.setAddress(rs.getString("emp_address"));
-			emp.setBirthday(rs.getDate("emp_birthday"));
-			emp.setChinese(rs.getString("emp_mandarin_level"));
-			emp.setCounty(rs.getString("emp_native_county"));
-			emp.setDepid(rs.getInt("dept_id"));
-			emp.setDesc(rs.getString("emp_desc"));
-			emp.setDistrict(rs.getString("emp_native_district"));
-			emp.setEduction(rs.getString("emp_xl"));
-			emp.setEmail(rs.getString("emp_email"));
-			emp.setEnglish(rs.getString("emp_eng_level"));
-			emp.setGender(rs.getByte("gender"));
-			emp.setOffertime(rs.getDate("emp_workdate"));
-			emp.setPhone(rs.getString("emp_cellphone"));
-			emp.setPhotoAdd(rs.getString("emp_photo"));
-			emp.setPosition(rs.getString("emp_position"));
-			emp.setProvince(rs.getString("emp_native_province"));
-			emp.setSchool(rs.getString("emp_school"));
-			emps.add(emp);
+			while(rs.next()){
+				
+				emp.setId(rs.getString("emp_id"));
+				emp.setName(rs.getString("emp_name"));
+				emp.setAddress(rs.getString("emp_address"));
+				emp.setBirthday(rs.getDate("emp_birthday"));
+				emp.setChinese(rs.getString("emp_mandarin_level"));
+				emp.setCounty(rs.getString("emp_native_county"));
+				emp.setDepid(rs.getInt("dept_id"));
+				emp.setDesc(rs.getString("emp_desc"));
+				emp.setDistrict(rs.getString("emp_native_district"));
+				emp.setEduction(rs.getString("emp_xl"));
+				emp.setEmail(rs.getString("emp_email"));
+				emp.setEnglish(rs.getString("emp_eng_level"));
+				emp.setGender(rs.getByte("gender"));
+				emp.setOffertime(rs.getDate("emp_workdate"));
+				emp.setPhone(rs.getString("emp_cellphone"));
+				emp.setPhotoAdd(rs.getString("emp_photo"));
+				emp.setPosition(rs.getString("emp_position"));
+				emp.setProvince(rs.getString("emp_native_province"));
+				emp.setSchool(rs.getString("emp_school"));
+				emps.add(emp);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -393,7 +400,46 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	 * 用户自定义查询
 	 */
 	public ArrayList<Employee> getElementsByUser(String sqlStr) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Employee> emps = new ArrayList<Employee>();
+		Employee emp = new Employee();
+		Connection conn = db.getConnect();
+		try {
+			ps = conn.prepareStatement(sqlStr);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				
+				emp.setId(rs.getString("emp_id"));
+				emp.setName(rs.getString("emp_name"));
+				emp.setAddress(rs.getString("emp_address"));
+				emp.setBirthday(rs.getDate("emp_birthday"));
+				emp.setChinese(rs.getString("emp_mandarin_level"));
+				emp.setCounty(rs.getString("emp_native_county"));
+				emp.setDepid(rs.getInt("dept_id"));
+				emp.setDesc(rs.getString("emp_desc"));
+				emp.setDistrict(rs.getString("emp_native_district"));
+				emp.setEduction(rs.getString("emp_xl"));
+				emp.setEmail(rs.getString("emp_email"));
+				emp.setEnglish(rs.getString("emp_eng_level"));
+				emp.setGender(rs.getByte("gender"));
+				emp.setOffertime(rs.getDate("emp_workdate"));
+				emp.setPhone(rs.getString("emp_cellphone"));
+				emp.setPhotoAdd(rs.getString("emp_photo"));
+				emp.setPosition(rs.getString("emp_position"));
+				emp.setProvince(rs.getString("emp_native_province"));
+				emp.setSchool(rs.getString("emp_school"));
+				emps.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			db.close();
+		}
+		return emps;
 	}
 }

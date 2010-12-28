@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 public class TestServlet extends HttpServlet {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * The doGet method of the servlet. <br>
 	 *
 	 * This method is called when a form has its tag value method equals to get.

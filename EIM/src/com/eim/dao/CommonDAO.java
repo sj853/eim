@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public interface CommonDAO<T> {
 
 	//根据ID得到实体
-	T getElementById(String id); 
+	ArrayList<T> getElementById(String id); 
 	//根据Name得到实体
 	ArrayList<T> getElementByName(String name);
 	//得到所有实体
