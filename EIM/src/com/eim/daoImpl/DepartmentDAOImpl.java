@@ -190,12 +190,13 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 	public boolean delElements(String[] ids){
 		int[] nums =null;
 		Connection conn = db.getConnect();
-		String sqlStr = "delete * from department where dept_id=?";
+		String sqlStr = "delete from department where dept_id=?";
 		try {
 			ps = conn.prepareStatement(sqlStr);
 			for (String id : ids) {
 				int did = Integer.parseInt(id);
 				ps.setInt(1, did);
+				ps.addBatch();
 			}
 			nums = ps.executeBatch();
 		} catch (SQLException e) {
@@ -256,6 +257,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		int num = 0;
 		try {
 			ps = conn.prepareStatement(sqlStr);
+			ps.setInt(1, dept.getId());
 			ps.setString(2, dept.getName());
 			ps.setInt(3, dept.getSuperid());
 			num = ps.executeUpdate();

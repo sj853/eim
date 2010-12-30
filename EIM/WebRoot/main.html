@@ -6,7 +6,7 @@
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="this is my page">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="themes/gray/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
         <link rel="stylesheet" type="text/css" href="themes/icon.css">
       <script type="text/javascript" src="js_lib/jquery-1.4.4.min.js">
         </script>
@@ -14,52 +14,22 @@
         </script>
 		   <script type="text/javascript" src="js_lib/main.js">
         </script>
+		
 	
   </head>
   
   <body>
-  <div id="cc" style="width:800px;height:600px;">
+  <div id="cc" style="width:auto;height:600px;">
     <div region="north" split="true" title="north" style="height:100px;width:auto;">
-	<div id="p" title="My Panel" collapsible="true" style="padding:10px;">
+	<div id="p" title="My Panel" collapsible="true" style="padding:10px;width:auto;">
   Panel Content
 </div>
 
 	</div>
     <div region="west" split="true" title="West" style="width:200px;height:auto;">
-	<ul id="menutree" class="easyui-tree" animate="true">
-    <li>
-        <span>部门管理</span>
-        <ul>
-        <li>
-            <span><a name="showdept" href="#">信息查看</a></span>
-        </li>
-        </ul>
-    </li>
-    <li>
-        <span>员工管理</span>
-        <ul>
-            <li>
-                <span><a name="showemp" href="#">信息查看</a></span>
-            </li>
-			<li> <span><a href="">员工生日查看</a></span></li>
-        </ul>
-    </li>
-    <li>
-    <span>管理员管理</span>
-    <ul>
-    <li>
-        <span><a href="servlet/LogoutServlet">注销</a></span>
-    </li>
-    <li>
-        <span><a href="#">密码修改</a></span>
-    </li>
-    <li>
-        <span><a href="#">退出系统</a></span>
-    </li>
-    </li>
-</ul>
+	<ul id="menutree" class="easyui-tree" animate="false" url="menutree.json"></ul>
 </div>
-    <div region="center" title="center title" style="width:auto;5px;background:#eee;height:auto;"></div>
+    <div  region="center" title="center title" style="5px;height:auto;width:auto;"><div id="content"></div></div>
 </div>
 
   </body>

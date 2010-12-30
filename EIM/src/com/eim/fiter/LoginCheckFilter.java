@@ -32,6 +32,7 @@ public class LoginCheckFilter implements Filter {
 				//没有登录跳转到登录界面
 				request.getRequestDispatcher("/login.jsp").forward(request, response);
 			}
+			filterchain.doFilter(request, response);
 
 	}
 
