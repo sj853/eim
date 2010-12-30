@@ -16,12 +16,22 @@ import com.eim.db.DataBase;
  */
 public class EmployeeDAOImpl implements EmployeeDAO {
 
+	private int rowPerpage=1;
+	public int getRowPerpage() {
+		return rowPerpage;
+	}
+
+	public void setRowPerpage(int rowPerpage) {
+		this.rowPerpage = rowPerpage;
+	}
+
 	private DataBase db;
 	private ResultSet rs = null;
 	private PreparedStatement ps = null;
 
-	public EmployeeDAOImpl() {
+	public EmployeeDAOImpl(int rowPerpage) {
 		db = new DataBase();
+		this.rowPerpage= rowPerpage;
 	}
 
 	/**
@@ -77,10 +87,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	/**
 	 * 查询性别为男或女的所有员工
 	 */
-	public ArrayList<Employee> getElementBySex(byte gender) {
+	public ArrayList<Employee> getElementBySex(byte gender,int currentPage) {
 		ArrayList<Employee> emps = new ArrayList<Employee>();
 		Connection conn = db.getConnect();
-		String sqlStr = "select * from employee where emp_gender=?";
+		String sqlStr = "select * from employee where emp_gender=? limit "+(currentPage-1)*rowPerpage+","+rowPerpage;
 		try {
 			ps = conn.prepareStatement(sqlStr);
 			ps.setByte(1, gender);
@@ -122,6 +132,28 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return emps;
 	}
 
+	
+	public int getElementsSizeBySex(byte gender){
+		int len =0;
+		Connection conn = db.getConnect();
+		String sqlStr = "select count(emp_id) from employee where emp_gender="+gender;
+		try {
+			ps = conn.prepareStatement(sqlStr);
+			rs = ps.executeQuery();
+			while(rs.next())len = rs.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			db.close();
+		}
+		return len;
+	}
 	/**
 	 * 查询工号为X的员工
 	 */
@@ -134,26 +166,29 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			ps = conn.prepareStatement(sqlStr);
 			ps.setString(1, id);
 			rs = ps.executeQuery();
-			emp.setId(rs.getString("emp_id"));
-			emp.setName(rs.getString("emp_name"));
-			emp.setAddress(rs.getString("emp_address"));
-			emp.setBirthday(rs.getDate("emp_birthday"));
-			emp.setChinese(rs.getString("emp_mandarin_level"));
-			emp.setCounty(rs.getString("emp_native_county"));
-			emp.setDepid(rs.getInt("dept_id"));
-			emp.setDesc(rs.getString("emp_desc"));
-			emp.setDistrict(rs.getString("emp_native_district"));
-			emp.setEduction(rs.getString("emp_xl"));
-			emp.setEmail(rs.getString("emp_email"));
-			emp.setEnglish(rs.getString("emp_eng_level"));
-			emp.setGender(rs.getByte("gender"));
-			emp.setOffertime(rs.getDate("emp_workdate"));
-			emp.setPhone(rs.getString("emp_cellphone"));
-			emp.setPhotoAdd(rs.getString("emp_photo"));
-			emp.setPosition(rs.getString("emp_position"));
-			emp.setProvince(rs.getString("emp_native_province"));
-			emp.setSchool(rs.getString("emp_school"));
-			emps.add(emp);
+			while(rs.next()){
+				
+				emp.setId(rs.getString("emp_id"));
+				emp.setName(rs.getString("emp_name"));
+				emp.setAddress(rs.getString("emp_address"));
+				emp.setBirthday(rs.getDate("emp_birthday"));
+				emp.setChinese(rs.getString("emp_mandarin_level"));
+				emp.setCounty(rs.getString("emp_native_county"));
+				emp.setDepid(rs.getInt("dept_id"));
+				emp.setDesc(rs.getString("emp_desc"));
+				emp.setDistrict(rs.getString("emp_native_district"));
+				emp.setEduction(rs.getString("emp_xl"));
+				emp.setEmail(rs.getString("emp_email"));
+				emp.setEnglish(rs.getString("emp_eng_level"));
+				emp.setGender(rs.getByte("gender"));
+				emp.setOffertime(rs.getDate("emp_workdate"));
+				emp.setPhone(rs.getString("emp_cellphone"));
+				emp.setPhotoAdd(rs.getString("emp_photo"));
+				emp.setPosition(rs.getString("emp_position"));
+				emp.setProvince(rs.getString("emp_native_province"));
+				emp.setSchool(rs.getString("emp_school"));
+				emps.add(emp);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -220,11 +255,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	/**
 	 * 查询所有员工
 	 */
-	public ArrayList<Employee> getElements() {
+	public ArrayList<Employee> getElements(int currentPage) {
 		ArrayList<Employee> emps = new ArrayList<Employee>();
 		Employee emp = new Employee();
 		Connection conn = db.getConnect();
-		String sqlStr = "select * from employee";
+		String sqlStr = "select * from employee limit "+(currentPage-1)*rowPerpage+","+rowPerpage;
 		try {
 			ps = conn.prepareStatement(sqlStr);
 			rs = ps.executeQuery();
@@ -265,6 +300,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return emps;
 	}
 
+	
 	/**
 	 * 添加一个员工
 	 */
@@ -407,7 +443,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			ps = conn.prepareStatement(sqlStr);
 			rs = ps.executeQuery();
 			while(rs.next()){
-				
 				emp.setId(rs.getString("emp_id"));
 				emp.setName(rs.getString("emp_name"));
 				emp.setAddress(rs.getString("emp_address"));
@@ -441,5 +476,33 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			db.close();
 		}
 		return emps;
+	}
+
+	public int getElementsSize() {
+		int len=0;
+		Connection conn = db.getConnect();
+		String sqlStr = "select count(id) from employee";
+		try {
+			ps = conn.prepareStatement(sqlStr);
+			rs = ps.executeQuery();
+			while(rs.next())len = rs.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			db.close();
+		}
+		return len;
+
+	}
+
+	public int getElementsSizeByUser(String sqlStr) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

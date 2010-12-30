@@ -17,8 +17,8 @@ public class DepartmentServiceImpl implements InfoService<Department> {
 
 	private DepartmentDAOImpl deptDAO;
 	
-	public DepartmentServiceImpl(){
-		deptDAO = new DepartmentDAOImpl();
+	public DepartmentServiceImpl(int rowPerPage){
+		deptDAO = new DepartmentDAOImpl(rowPerPage);
 	}
 	
 	/**
@@ -40,32 +40,43 @@ public class DepartmentServiceImpl implements InfoService<Department> {
 		return deptDAO.delElements(ids);
 	}
 
-	/**
-	 * 查询逻辑
-	 */
-	public ArrayList<Department> doSearch(Map<String, String> condition) {
-		if(condition.containsKey("id")){
-			return deptDAO.getElementById(condition.get("id"));
-		}
-		else if(condition.containsKey("sid")){
-			return deptDAO.getSuperDepartment(condition.get("sid"));
-		}
-		else if(condition.containsKey("name")){
-			return deptDAO.getElementByName(condition.get("name"));
-		}
-		else if(condition.containsKey("all")){
-			return deptDAO.getElements();
-		}
-		else{
-			return deptDAO.getElementsByUser(condition.get("customer"));
-		}
-	}
-
+	
 	/**
 	 * 更新逻辑
 	 */
 	public boolean doUpdate(Department dept) {
 		return deptDAO.updateElement(dept);
+	}
+	
+	/**
+	 * 查询逻辑
+	 */
+
+	public ArrayList<Department> doSearch(String key, String val,int currentPage){
+			if("id".equals(key)){
+				return deptDAO.getElementById(val);
+			}
+			else if("name".equals(key)){
+				return deptDAO.getElementByName(val);
+			}
+			
+			else if("all".equals(key)){
+				return deptDAO.getElements(currentPage);
+			}
+			else{
+				return deptDAO.getElementsByUser(val);
+			}
+	}
+
+	public int getRows(String key, String val) {
+
+		if("all".equals(key)){
+			return deptDAO.getElementsSize();
+		}
+		else{
+			return deptDAO.getElementsSizeByUser(val);
+		}
+	
 	}
 
 

@@ -17,8 +17,9 @@ public class EmployeeServiceImpl implements InfoService<Employee>{
 
 	private EmployeeDAOImpl empDAO;
 	
-	public EmployeeServiceImpl() {
-		empDAO = new EmployeeDAOImpl();
+	
+	public EmployeeServiceImpl(int rowPerPage) {
+		empDAO = new EmployeeDAOImpl(rowPerPage);
 	}
 	/**
 	 * 添加逻辑
@@ -39,32 +40,45 @@ public class EmployeeServiceImpl implements InfoService<Employee>{
 		return empDAO.delElements(ids);
 	}
 
-	/**
-	 * 查询逻辑
-	 */
-	public ArrayList<Employee> doSearch(Map<String, String> condition) {
-		if(condition.containsKey("id")){
-			return empDAO.getElementById(condition.get("id"));
-		}
-		else if(condition.containsKey("gender")){
-			return empDAO.getElementBySex(Byte.parseByte(condition.get("gender")));
-		}
-		else if(condition.containsKey("name")){
-			return empDAO.getElementByName(condition.get("name"));
-		}
-		else if(condition.containsKey("all")){
-			return empDAO.getElements();
-		}
-		else{
-			return empDAO.getElementsByUser(condition.get("customer"));
-		}
-	}
+	
 
 	/**
 	 * 更新逻辑
 	 */
 	public boolean doUpdate(Employee emp) {
 		return empDAO.updateElement(emp);
+	}
+	/**
+	 * 查询逻辑
+	 */
+	public ArrayList<Employee> doSearch(String key, String val, int currentPage) {
+		if("id".equals(key)){
+			return empDAO.getElementById(val);
+		}
+		else if("name".equals(key)){
+			return empDAO.getElementByName(val);
+		}
+		else if("gender".equals(key)){
+			return empDAO.getElementBySex(Byte.parseByte(val), currentPage);
+		}
+		else if("all".equals(key)){
+			return empDAO.getElements(currentPage);
+		}
+		else{
+			return empDAO.getElementsByUser(val);
+		}
+		
+	}
+	public int getRows(String key, String val) {
+		if("all".equals(key)){
+			return empDAO.getElementsSize();
+		}
+		else if("gender".equals(key)){
+			return empDAO.getElementsSizeBySex(Byte.parseByte(val));
+		}
+		else{
+			return empDAO.getElementsSizeByUser(val);
+		}
 	}
 
 }

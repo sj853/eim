@@ -2,6 +2,7 @@ package com.eim.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import com.eim.beans.Department;
 import com.eim.service.InfoService;
@@ -23,6 +26,9 @@ public class DeptServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private String rows = null;
+	private InfoService<Department> deptser;
+	
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -37,30 +43,51 @@ public class DeptServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		JsonFormat<Department> jf = new JsonFormat<Department>();
 		String type = request.getParameter("type");
-		String deptname =request.getParameter("name");
-		type = "search";
-		String key = request.getParameter("key");
-		String val = request.getParameter("val");
-		Map<String, String> condition = new HashMap<String, String>();
-		condition.put("all", null);
+	
+	
 		
-		InfoService<Department> deptser = new DepartmentServiceImpl();
 		
+
+		String rows = request.getParameter("rows");
+		if(rows!=null){
+			
+			int rowPerPage = Integer.parseInt(rows);
+			deptser = new DepartmentServiceImpl(rowPerPage);
+		}
 		if(type==null){
 				
 			
 		}
 		else if("search".equals(type)){
-			out.println(jf.format(deptser.doSearch(condition)));
+			int currentPage = Integer.parseInt(request.getParameter("page"));
+			String key = request.getParameter("key");
+			String val = request.getParameter("val");
+		   ArrayList<Department> depts = deptser.doSearch(key, val,currentPage);
+		   int rowSize = deptser.getRows(key,val);
+			out.println(jf.format(depts, rowSize));
 		}
 		else if("add".equals(type)){
-
+			
 		}
 		else if("del".equals(type)){
 			
 		}
 		else if("update".equals(type)){
-			
+			int id = 0;
+			int superid = 0;
+			try{
+				id = Integer.parseInt(request.getParameter("id"));
+			    superid = Integer.parseInt(request.getParameter("superid"));
+			}catch (Exception e) {
+				out.print(false);
+				return;
+			}
+			String name = request.getParameter("name");
+			Department dept = new Department();
+			dept.setId(id);
+			dept.setName(name);
+			dept.setSuperid(superid);
+			out.println(deptser.doUpdate(dept));
 		}
 		
 		
