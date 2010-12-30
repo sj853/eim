@@ -360,6 +360,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			ps = conn.prepareStatement(sqlStr);
 			for (String id : ids) {
 				ps.setString(1, id);
+				ps.addBatch();
 			}
 			nums = ps.executeBatch();
 		} catch (SQLException e) {

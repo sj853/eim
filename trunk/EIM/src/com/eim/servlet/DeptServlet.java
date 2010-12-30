@@ -39,7 +39,6 @@ public class DeptServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		response.setContentType("text/html");
-		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		JsonFormat<Department> jf = new JsonFormat<Department>();
 		String type = request.getParameter("type");
@@ -66,13 +65,7 @@ public class DeptServlet extends HttpServlet {
 		   int rowSize = deptser.getRows(key,val);
 			out.println(jf.format(depts, rowSize));
 		}
-		else if("add".equals(type)){
-			
-		}
-		else if("del".equals(type)){
-			
-		}
-		else if("update".equals(type)){
+		else{ 
 			int id = 0;
 			int superid = 0;
 			try{
@@ -87,9 +80,24 @@ public class DeptServlet extends HttpServlet {
 			dept.setId(id);
 			dept.setName(name);
 			dept.setSuperid(superid);
+			
+			
+	   if("add".equals(type)){
+				
+			out.println(deptser.doAdd(dept));
+		}
+		else if("del".equals(type)){
+			System.out.println("come in");
+			ArrayList<Department> depts = new ArrayList<Department>();
+			depts.add(dept);
+			out.println(deptser.doDel(depts));
+		}
+		else {
+		
 			out.println(deptser.doUpdate(dept));
 		}
 		
+		}
 		
 		
 	}

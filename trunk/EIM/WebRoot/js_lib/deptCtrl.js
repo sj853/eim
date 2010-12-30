@@ -3,12 +3,16 @@ var key;
 //关键字的值
 var val;
 
+
+
+var typeVal;
+
 $(function(){
     var lastIndex;
     var key="all";
 	var val="";
     //表格设置---------------------------------------------
-    var grid = $('#tt').datagrid({
+    var grid = $('#data').datagrid({
         pagination: true,
         rownumbers: true,
         loadMsg: '数据加载中了.....',
@@ -18,45 +22,52 @@ $(function(){
             text: '添加记录',
             iconCls: 'icon-add',
             handler: function(){
-                $('#tt').datagrid('endEdit', lastIndex);
-                $('#tt').datagrid('appendRow', {
-                    itemid: '',
-                    productid: '',
-                    listprice: '',
-                    unitprice: '',
-                    attr1: '',
-                    status: 'P'
+                $("#detail input").each(function(){
+					$(this).attr("value","");
+                    $(this).removeAttr("disabled");
                 });
-                var lastIndex = $('#tt').datagrid('getRows').length - 1;
-                $('#tt').datagrid('beginEdit', lastIndex);
+		    win.window('open');
+			typeVal = "add";
+							 
             }
         }, '-', {
             text: '删除记录',
             iconCls: 'icon-remove',
             handler: function(){
-                var row = $('#tt').datagrid('getSelected');
-                if (row) {
-                    var index = $('#tt').datagrid('getRowIndex', row);
-                    $('#tt').datagrid('deleteRow', index);
-                }
+			var row = $("#data").datagrid("getSelected");
+			if(row){
+			for(var prop in row){
+				$("#detail input[name='"+prop+"']").attr("value",row[prop]);
+			}
+			$.messager.confirm("警告！","您确定要永久删除此条数据吗?",function(data){
+				if(data){
+                  typeVal = "del";
+					getData();
+				}
+			});
+			}
+			else{
+				$.messager.alert("警告！","请先选择一行!");
+			}
+			
             }
         }, '-', {
             text: '提交',
             iconCls: 'icon-save',
             handler: function(){
-                $('#tt').datagrid('acceptChanges');
+                $('#data').datagrid('acceptChanges');
             }
         }, '-', {
             text: '撤销',
             iconCls: 'icon-undo',
             handler: function(){
-                $('#tt').datagrid('rejectChanges');
+                $('#data').datagrid('rejectChanges');
             }
         }, '-', {
             text: '更新条数',
             iconCls: 'icon-search',
             handler: function(){
-                var rows = $('#tt').datagrid('getChanges');
+                var rows = $('#data').datagrid('getChanges');
                 alert('changed rows: ' + rows.length + ' lines');
             }
         }],
@@ -70,15 +81,16 @@ $(function(){
         
         onClickRow: function(rowIndex){
             if (lastIndex != rowIndex) {
-                $('#tt').datagrid('endEdit', lastIndex);
-                $('#tt').datagrid('beginEdit', rowIndex);
+                $('#data').datagrid('endEdit', lastIndex);
+                $('#data').datagrid('beginEdit', rowIndex);
             }
             lastIndex = rowIndex;
         },
         //双击事件
         onDblClickRow: function(rowIndex){
 			win.window('open');
-			var row = $("#tt").datagrid("getSelected");
+			 typeVal = "update";
+			var row = $("#data").datagrid("getSelected");
 			for(var prop in row){
 				$("#detail input[name='"+prop+"']").attr("value",row[prop]);
 			}
@@ -103,29 +115,7 @@ $(function(){
                     text: '保存',
                     iconCls: 'icon-save',
                     handler: function(){
-						var idVal = $("input[name='id']").attr("value");
-						var nameVal = $("input[name='name']").attr("value");
-						var superidVal = $("input[name='superid']").attr("value");
-						$.post("servlet/DeptServlet",{
-							type:"update",
-							id:idVal,
-							name:nameVal,
-							superid:superidVal
-						},function(data){
-							if(data){
-                                $("input[name]").each(function(){
-									$(this).attr("disabled","true");
-								});
-							 $('#tt').datagrid('reload');
-//                                $('#dd').window({
-//                                    closed: true
-//                                });
-							}
-							else{
-								alert("修改失败！请稍后再试...");
-							}
-							
-						});
+						getData();
                     }
                 }],
                 buttons: [{
@@ -141,7 +131,29 @@ $(function(){
             });
     //--------------------------------------------------------------------------
     
-	
+	function getData(){
+			var idVal = $("input[name='id']").attr("value");
+					var nameVal = $("input[name='name']").attr("value");
+					var superidVal = $("input[name='superid']").attr("value");
+					
+						$.post("servlet/DeptServlet",{
+							type:typeVal,
+							id:idVal,
+							name:nameVal,
+							superid:superidVal
+						},function(data){
+							if(data){
+                                $("input[name]").each(function(){
+									$(this).attr("disabled","true");
+								});
+							 $('#data').datagrid('reload');
+							}
+							else{
+								$.messager.alert("错误","操作或数据传输出错，请稍后再试...");
+							}
+							
+						});
+	}
 	
 	
 	//弹出框口设置
