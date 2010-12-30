@@ -26,10 +26,10 @@ public class JsonFormat<T> {
 	 * @param ts
 	 * @return
 	 */
-	public JSONObject format(ArrayList<T> ts) {
+	public JSONObject format(ArrayList<T> ts,int rows) {
 		StringBuilder sb = new StringBuilder();
 		JSONObject jObject = new JSONObject();
-		sb.append("{total:"+ts.size()+",rows:[");
+		sb.append("{total:"+rows+",rows:[");
 		for (T t : ts) {
 			Method[] methods = t.getClass().getDeclaredMethods();
 			sb.append("{");

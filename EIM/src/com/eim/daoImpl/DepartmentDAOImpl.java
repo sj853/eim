@@ -20,9 +20,19 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 	private DataBase db;
 	private ResultSet rs = null;
 	private PreparedStatement ps = null;
+	private int rowPerpage=1;
 	
-	public DepartmentDAOImpl() {
+	public int getRowPerpage() {
+		return rowPerpage;
+	}
+
+	public void setRowPerpage(int rowPerpage) {
+		this.rowPerpage = rowPerpage;
+	}
+
+	public DepartmentDAOImpl(int rowPerpage) {
 		db = new DataBase();
+		this.rowPerpage = rowPerpage;
 	}
 	
 	/**
@@ -37,10 +47,12 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 			ps = conn.prepareStatement(sqlStr);
 			ps.setString(0, sid);
 			rs = ps.executeQuery();
-			dept.setId(rs.getInt("dept_id"));
-			dept.setName(rs.getString("dept_name"));
-			dept.setSuperid(rs.getInt("super_dept_id"));
-			depts.add(dept);
+			while(rs.next()){
+				dept.setId(rs.getInt("dept_id"));
+				dept.setName(rs.getString("dept_name"));
+				dept.setSuperid(rs.getInt("super_dept_id"));
+				depts.add(dept);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
@@ -67,10 +79,12 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 			ps = conn.prepareStatement(sqlStr);
 			ps.setString(0, id);
 			rs = ps.executeQuery();
-			dept.setId(rs.getInt("dept_id"));
-			dept.setName(rs.getString("dept_name"));
-			dept.setSuperid(rs.getInt("super_dept_id"));
-			depts.add(dept);
+			while(rs.next()){
+				dept.setId(rs.getInt("dept_id"));
+				dept.setName(rs.getString("dept_name"));
+				dept.setSuperid(rs.getInt("super_dept_id"));
+				depts.add(dept);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
@@ -120,10 +134,10 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 	/**
 	 * 查询所有部门信息
 	 */
-	public ArrayList<Department> getElements() {
+	public ArrayList<Department> getElements(int currentPage) {
 		ArrayList<Department> depts = new ArrayList<Department>();
 		Connection conn = db.getConnect();
-		String sqlStr = "select * from department";
+		String sqlStr = "select * from department limit "+(currentPage-1)*rowPerpage+","+rowPerpage;
 		try {
 			ps = conn.prepareStatement(sqlStr);
 			rs = ps.executeQuery();
@@ -148,6 +162,28 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		return depts;
 	}
 
+	public int getElementsSize(){
+		int len =0;
+		Connection conn = db.getConnect();
+		String sqlStr = "select count(dept_id) from department";
+		try {
+			ps = conn.prepareStatement(sqlStr);
+			rs = ps.executeQuery();
+			while(rs.next())len = rs.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			db.close();
+		}
+		return len;
+	}
+	
 	/**
 	 * 删除多个部门
 	 */
@@ -251,9 +287,9 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		int num = 0;
 		try {
 			ps = conn.prepareStatement(sqlStr);
-			ps.setInt(1, dept.getId());
-			ps.setString(2, dept.getName());
-			ps.setInt(3, dept.getSuperid());
+			ps.setInt(3, dept.getId());
+			ps.setString(1, dept.getName());
+			ps.setInt(2, dept.getSuperid());
 			num = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -272,6 +308,11 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		else{
 			return false;
 		}
+	}
+
+	public int getElementsSizeByUser(String sqlStr) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 
