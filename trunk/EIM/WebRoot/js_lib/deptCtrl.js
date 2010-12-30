@@ -79,10 +79,8 @@ $(function(){
         onDblClickRow: function(rowIndex){
 			win.window('open');
 			var row = $("#tt").datagrid("getSelected");
-			var num=0;
 			for(var prop in row){
 				$("#detail input[name='"+prop+"']").attr("value",row[prop]);
-				num++;
 			}
         }
     });
@@ -135,11 +133,18 @@ $(function(){
                     iconCls: 'icon-ok',
                     handler: function(){
                         $('#dd').dialog('close');
+						 $("#detail input[name]").each(function(){
+									$(this).attr("disabled","true");
+								});
                     }
                 }]
             });
     //--------------------------------------------------------------------------
     
+	
+	
+	
+	//弹出框口设置
 	var win = $('#dd').window({
 		closed:true
 	});
