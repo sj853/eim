@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <META content="MSHTML 6.00.6000.16809" name=GENERATOR>
     </HEAD>
     <BODY>
-        <FORM id="log" name="log" action="/EIM/servlet/LoginServlet" method="post">
+        <FORM id="log" name="log" action="/eim/servlet/LoginServlet" method="post">
             <DIV id="UpdatePanel1">
                 <DIV id="div1" style="LEFT: 0px; POSITION: absolute; TOP: 0px; BACKGROUND-COLOR: #0066ff">
                 </DIV>
