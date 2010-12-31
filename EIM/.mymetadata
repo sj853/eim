@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="EIM"
+  name="eim"
   id="myeclipse.1293074423740"
   context-root="/EIM"
   j2ee-spec="5.0"
-  archive="EIM.war">
+  archive="eim.war">
   <attributes>
     <attribute name="webrootdir" value="WebRoot" />
   </attributes>
