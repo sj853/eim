@@ -39,9 +39,10 @@
 "url":"chagepw.html"
 }
 },{
+"id":"exit",
 "text":"退出系统",
 "attributes":{ 
-"url":"showdept.html"
+"url":"servlet/LogoutServlet"
 }
 }
 ]

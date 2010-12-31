@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="E:/jars/mysql-connector-java-5.1.14/mysql-connector-java-5.1.14/mysql-connector-java-5.1.14-bin.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/bonecp-0.7.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-beanutils-1.7.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-collections-3.2.jar"/>
